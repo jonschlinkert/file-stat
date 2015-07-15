@@ -1,0 +1,52 @@
+{
+  "name": "file-stat",
+  "description": "Set the `stat` property on a file object. Abstraction from vinyl-fs to support stream or non-stream usage.",
+  "version": "0.1.1",
+  "homepage": "https://github.com/jonschlinkert/file-stat",
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "jonschlinkert/file-stat",
+  "bugs": {
+    "url": "https://github.com/jonschlinkert/file-stat/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "graceful-fs": "^4.1.2",
+    "through2": "^2.0.0"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "keywords": [
+    "directory",
+    "file",
+    "is",
+    "is-directory",
+    "is-file",
+    "plugin",
+    "stat",
+    "stats",
+    "stream",
+    "through"
+  ],
+  "verb": {
+    "related": {
+      "list": [
+        "file-contents",
+        "file-symlinks",
+        "stream-loader",
+        "vinyl",
+        "vinyl-fs"
+      ]
+    }
+  }
+}
