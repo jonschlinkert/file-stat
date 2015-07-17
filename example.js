@@ -1,5 +1,5 @@
 var through = require('through2');
-var stats = require('./');
+var stats = require('./index');
 
 function toStream(fp) {
   var stream = through.obj();
