@@ -46,7 +46,7 @@ function async(file, cb) {
 }
 
 /**
- * Sync method for getting `file.contents`.
+ * Sync method for getting `file.stat`.
  *
  * @param  {Object} `file`
  * @return {Object}
@@ -54,7 +54,7 @@ function async(file, cb) {
 
 function sync(file) {
   if (typeof file !== 'object') {
-    throw new TypeError('file-contents sync expects `file` to be an object.');
+    throw new TypeError('file-stat sync expects `file` to be an object.');
   }
 
   if (typeof file.stat === 'undefined') {

@@ -1,4 +1,4 @@
-# file-contents [![NPM version](https://badge.fury.io/js/file-contents.svg)](http://badge.fury.io/js/file-contents)
+# file-stat [![NPM version](https://badge.fury.io/js/file-stat.svg)](http://badge.fury.io/js/file-stat)
 
 > Set the `contents` property on a file object. Abstraction from vinyl-fs to support stream or non-stream usage.
 
@@ -9,14 +9,14 @@ This is inspired by the `file.stat` code in [vinyl-fs](http://github.com/wearefr
 Install with [npm](https://www.npmjs.com/)
 
 ```sh
-$ npm i file-contents --save
+$ npm i file-stat --save
 ```
 
 ## Usage
 
 ```js
 var through = require('through2');
-var stats = require('file-stat');
+var stats = require('./index');
 
 function toStream(fp) {
   var stream = through.obj();
@@ -29,7 +29,7 @@ toStream('README.md')
   .pipe(stats())
   .on('data', function (file) {
     // adds `stat` object to file
-    console.log(file.stat.toString());
+    console.log(file.stat);
   })
   .on('end', function () {
     console.log('Done.');
@@ -93,7 +93,7 @@ var file = stats.sync({path: 'README.md'});
 
 ## Related projects
 
-* [file-contents](https://github.com/jonschlinkert/file-contents): Set the `contents` property on a file object in a stream. Abstraction from vinyl-fs to… [more](https://github.com/jonschlinkert/file-contents)
+* [file-stat](https://github.com/jonschlinkert/file-stat): Set the `stat` property on a file object in a stream. Abstraction from vinyl-fs to… [more](https://github.com/jonschlinkert/file-stat)
 * [file-symlinks](https://github.com/jonschlinkert/file-symlinks): Resolve symlinks and expose the `stat` property on a file object.
 * [stream-loader](https://github.com/jonschlinkert/stream-loader): create a read stream from a glob of files. can be used as a loader-cache… [more](https://github.com/jonschlinkert/stream-loader)
 * [vinyl](http://github.com/wearefractal/vinyl): A virtual file format
@@ -109,7 +109,7 @@ $ npm i -d && npm test
 
 ## Contributing
 
-Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/jonschlinkert/file-contents/issues/new)
+Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/jonschlinkert/file-stat/issues/new)
 
 ## Author
 
