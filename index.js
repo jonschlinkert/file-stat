@@ -1,29 +1,27 @@
 'use strict';
 
-var through = require('through2');
-var fs = require('graceful-fs');
+var utils = require('./utils');
 
 module.exports = function fileStats() {
-  return through.obj(function (file, enc, cb) {
-    var stream = this;
-
+  return utils.through.obj(function (file, enc, cb) {
     getStats(file, function (err, res) {
       if (err) {
-        stream.emit('error', err);
-        return cb();
+        cb(err);
+        return;
       }
-      stream.push(res);
-      return cb();
+      cb(null, res);
     });
   });
 };
 
 function getStats(file, cb) {
-  fs.lstat(file.path, function (err, stat) {
-    if (err) return cb(err);
-
+  utils.fs.lstat(file.path, function (err, stat) {
+    if (err) {
+      cb(err);
+      return;
+    }
     file.stat = stat;
-    return cb(null, file);
+    cb(null, file);
   });
 }
 

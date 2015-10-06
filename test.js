@@ -1,6 +1,6 @@
 'use strict';
 
-/* deps: mocha */
+require('mocha');
 var through = require('through2');
 var assert = require('assert');
 var stats = require('./');
@@ -13,7 +13,7 @@ function streamify(fp) {
 }
 
 describe('add a `stat` property to the given object', function (done) {
-  it('should work as a plugin in a stream:', function () {
+  it('should return a stream:', function () {
     streamify('README.md')
       .on('error', console.error)
       .pipe(stats())
@@ -25,7 +25,7 @@ describe('add a `stat` property to the given object', function (done) {
       });
   });
 
-  it('`getStats` should work as an async function:', function (done) {
+  it('should expose `getStats`:', function (done) {
     stats.getStats({path: 'README.md'}, function (err, file) {
       if (err) return done(err);
 
