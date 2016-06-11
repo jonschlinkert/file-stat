@@ -1,16 +1,17 @@
-# file-stat [![NPM version](https://badge.fury.io/js/file-stat.svg)](http://badge.fury.io/js/file-stat)
+# file-stat [![NPM version](https://img.shields.io/npm/v/file-stat.svg?style=flat)](https://www.npmjs.com/package/file-stat) [![NPM downloads](https://img.shields.io/npm/dm/file-stat.svg?style=flat)](https://npmjs.org/package/file-stat) [![Build Status](https://img.shields.io/travis/jonschlinkert/file-stat.svg?style=flat)](https://travis-ci.org/jonschlinkert/file-stat)
 
-> Set the `stat` property on a file object. Abstraction from vinyl-fs to support stream or non-stream usage.
-
-This is inspired by the `file.stat` code in [vinyl-fs](http://github.com/wearefractal/vinyl-fs). I needed a function that essentially did the same thing but could be used with stream or non-stream code.
+Set the `stat` property on a file object. Abstraction from vinyl-fs to support stream or non-stream usage.
 
 ## Install
 
-Install with [npm](https://www.npmjs.com/)
+Install with [npm](https://www.npmjs.com/):
+save
 
 ```sh
-$ npm i file-stat --save
+$ npm install --save file-stat
 ```
+
+This is inspired by the `file.stat` code in [vinyl-fs](http://github.com/wearefractal/vinyl-fs). I needed a function that essentially did the same thing but could be used with either stream or non-stream code.
 
 ## Usage
 
@@ -36,48 +37,141 @@ toStream('README.md')
   });
 ```
 
-**async**
+## API
 
-A `.getStats()` method is exposed for non-stream usage.
+The sync methods use getters/setters to lazily add `stat` or `lstat` to the file object.
+
+### [.stat](index.js#L34)
+
+Asynchronously add a `stat` property from `fs.stat` to the given file object.
+
+**Params**
+
+* `file` **{Object}**: File object
+* `cb` **{Function}**
+
+**Example**
 
 ```js
-stats.getStats({path: 'README.md'}, function (err, res) {
-  // (typeof res.stat === 'object') => true
+var File = require('vinyl');
+var stats = require('{%= name %}');
+stats.stat(new File({path: 'README.md'}), function(err, file) {
+  console.log(file.stat.isFile());
+  //=> true
 });
 ```
 
+### [.lstat](index.js#L62)
+
+Asynchronously add a `lstat` property from `fs.lstat` to the given file object.
+
+**Params**
+
+* `file` **{Object}**: File object
+* `cb` **{Function}**
+
+**Example**
+
+```js
+var File = require('vinyl');
+var stats = require('{%= name %}');
+stats.lstat(new File({path: 'README.md'}), function(err, file) {
+  console.log(file.lstat.isFile());
+  //=> true
+});
+```
+
+### [.statSync](index.js#L90)
+
+Synchronously add a `stat` property from `fs.stat` to the given file object.
+
+**Params**
+
+* `file` **{Object}**: File object
+* `cb` **{Function}**
+
+**Example**
+
+```js
+var File = require('vinyl');
+var stats = require('{%= name %}');
+var file = new File({path: 'README.md'});
+stats.statSync(file);
+console.log(file.stat.isFile());
+//=> true
+```
+
+### [.lstatSync](index.js#L120)
+
+Synchronously add a `lstat` property from `fs.lstat` to the given file object.
+
+**Params**
+
+* `file` **{Object}**: File object
+* `cb` **{Function}**
+
+**Example**
+
+```js
+var File = require('vinyl');
+var stats = require('{%= name %}');
+var file = new File({path: 'README.md'});
+stats.statSync(file);
+console.log(file.lstat.isFile());
+//=> true
+```
+
+## History
+
+**v0.2.0**
+
+* adds `.lstat`, `.stat`, `.lstatSync` and `.statSync` methods
+* the `.getStats` async method was renamed to `.stat` for consistency with the added methods
+
 ## Related projects
 
-* [file-contents](https://www.npmjs.com/package/file-contents): Set the `contents` property on a file object. Abstraction from vinyl-fs to support stream or… [more](https://www.npmjs.com/package/file-contents) | [homepage](https://github.com/jonschlinkert/file-contents)
-* [file-symlinks](https://www.npmjs.com/package/file-symlinks): Resolve symlinks and expose the `stat` property on a file object. | [homepage](https://github.com/jonschlinkert/file-symlinks)
-* [stream-loader](https://www.npmjs.com/package/stream-loader): create a read stream from a glob of files. can be used as a loader-cache… [more](https://www.npmjs.com/package/stream-loader) | [homepage](https://github.com/jonschlinkert/stream-loader)
-* [vinyl](https://www.npmjs.com/package/vinyl): A virtual file format | [homepage](http://github.com/gulpjs/vinyl)
-* [vinyl-fs](https://www.npmjs.com/package/vinyl-fs): Vinyl adapter for the file system | [homepage](http://github.com/wearefractal/vinyl-fs)
+You might also be interested in these projects:
+
+* [file-contents](https://www.npmjs.com/package/file-contents): Set the `contents` property on a file object. Abstraction from vinyl-fs to support stream or… [more](https://github.com/jonschlinkert/file-contents) | [homepage](https://github.com/jonschlinkert/file-contents "Set the `contents` property on a file object. Abstraction from vinyl-fs to support stream or non-stream usage.")
+* [file-symlinks](https://www.npmjs.com/package/file-symlinks): Resolve symlinks and expose the `stat` property on a file object. | [homepage](https://github.com/jonschlinkert/file-symlinks "Resolve symlinks and expose the `stat` property on a file object.")
+* [stream-loader](https://www.npmjs.com/package/stream-loader): create a read stream from a glob of files. can be used as a loader-cache… [more](https://github.com/jonschlinkert/stream-loader) | [homepage](https://github.com/jonschlinkert/stream-loader "create a read stream from a glob of files. can be used as a loader-cache loader, or by itself as an a-la-carte replacement or addition to vinyl src.")
+* [vinyl](https://www.npmjs.com/package/vinyl): A virtual file format | [homepage](http://github.com/gulpjs/vinyl "A virtual file format")
+* [vinyl-fs](https://www.npmjs.com/package/vinyl-fs): Vinyl adapter for the file system | [homepage](http://github.com/wearefractal/vinyl-fs "Vinyl adapter for the file system")
+
+## Contributing
+
+This document was generated by [verb-readme-generator](https://github.com/verbose/verb-readme-generator) (a [verb](https://github.com/verbose/verb) generator), please don't edit directly. Any changes to the readme must be made in [.verb.md](.verb.md). See [Building Docs](#building-docs).
+
+Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new). Or visit the [verb-readme-generator](https://github.com/verbose/verb-readme-generator) project to submit bug reports or pull requests for the readme layout template.
+
+## Building docs
+
+Generate readme and API documentation with [verb](https://github.com/verbose/verb):
+
+```sh
+$ npm install -g verb verb-readme-generator && verb
+```
 
 ## Running tests
 
 Install dev dependencies:
 
 ```sh
-$ npm i -d && npm test
+$ npm install -d && npm test
 ```
-
-## Contributing
-
-Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/jonschlinkert/file-stat/issues/new).
 
 ## Author
 
 **Jon Schlinkert**
 
-+ [github/jonschlinkert](https://github.com/jonschlinkert)
-+ [twitter/jonschlinkert](http://twitter.com/jonschlinkert)
+* [github/jonschlinkert](https://github.com/jonschlinkert)
+* [twitter/jonschlinkert](http://twitter.com/jonschlinkert)
 
 ## License
 
-Copyright © 2015 Jon Schlinkert
-Released under the MIT license.
+Copyright © 2016, [Jon Schlinkert](https://github.com/jonschlinkert).
+Released under the [MIT license](https://github.com/jonschlinkert/file-stat/blob/master/LICENSE).
 
 ***
 
-_This file was generated by [verb-cli](https://github.com/assemble/verb-cli) on October 05, 2015._
+_This file was generated by [verb](https://github.com/verbose/verb), v0.9.0, on June 11, 2016._
