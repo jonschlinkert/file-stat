@@ -12,8 +12,8 @@ function streamify(fp) {
   return stream;
 }
 
-describe('add a `stat` property to the given object', function(cb) {
-  it('should return a stream:', function() {
+describe('add a `stat` property to the given object', function() {
+  it('should return a stream:', function(cb) {
     var files = [];
     streamify('README.md')
       .pipe(stats())
@@ -21,8 +21,11 @@ describe('add a `stat` property to the given object', function(cb) {
         files.push(file);
       })
       .on('end', function() {
-        assert.equal(typeof files[0].stat, 'object');
+        assert(files[0].stat);
         assert(files[0].stat.isFile());
+
+        assert(files[0].lstat);
+        assert(files[0].lstat.isFile());
         cb();
       });
   });
@@ -32,6 +35,15 @@ describe('add a `stat` property to the given object', function(cb) {
       if (err) return cb(err);
       assert.equal(typeof file.stat, 'object');
       assert(file.stat.isFile());
+      cb();
+    });
+  });
+
+  it('should expose `lstat`:', function(cb) {
+    stats.lstat({path: 'README.md'}, function(err, file) {
+      if (err) return cb(err);
+      assert.equal(typeof file.lstat, 'object');
+      assert(file.lstat.isFile());
       cb();
     });
   });

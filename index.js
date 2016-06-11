@@ -4,13 +4,7 @@ var utils = require('./utils');
 
 module.exports = function fileStats() {
   return utils.through.obj(function(file, enc, cb) {
-    lstat(file, function(err, res) {
-      if (err) {
-        cb(err);
-        return;
-      }
-      cb(null, res);
-    });
+    lstat(file, cb);
   });
 };
 
@@ -65,6 +59,7 @@ function lstat(file, cb) {
       cb(err);
       return;
     }
+    file.lstat = stat;
     file.stat = stat;
     cb(null, file);
   });
@@ -135,5 +130,6 @@ function lstatSync(file) {
  */
 
 module.exports.stat = stat;
+module.exports.lstat = lstat;
 module.exports.lstatSync = lstatSync;
 module.exports.statSync = statSync;
