@@ -41,7 +41,7 @@ toStream('README.md')
 
 The sync methods use getters/setters to lazily add `stat` or `lstat` to the file object.
 
-### [.stat](index.js#L34)
+### [.stat](index.js#L28)
 
 Asynchronously add a `stat` property from `fs.stat` to the given file object.
 
@@ -61,7 +61,7 @@ stats.stat(new File({path: 'README.md'}), function(err, file) {
 });
 ```
 
-### [.lstat](index.js#L62)
+### [.lstat](index.js#L56)
 
 Asynchronously add a `lstat` property from `fs.lstat` to the given file object.
 
@@ -81,7 +81,7 @@ stats.lstat(new File({path: 'README.md'}), function(err, file) {
 });
 ```
 
-### [.statSync](index.js#L90)
+### [.statSync](index.js#L85)
 
 Synchronously add a `stat` property from `fs.stat` to the given file object.
 
@@ -101,7 +101,7 @@ console.log(file.stat.isFile());
 //=> true
 ```
 
-### [.lstatSync](index.js#L120)
+### [.lstatSync](index.js#L115)
 
 Synchronously add a `lstat` property from `fs.lstat` to the given file object.
 
