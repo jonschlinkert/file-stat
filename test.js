@@ -39,11 +39,29 @@ describe('add a `stat` property to the given object', function() {
     });
   });
 
+  it('should handle stat ENOENT errors', function(cb) {
+    stats.stat({path: 'fosudfsoofsofsoiso'}, function(err, file) {
+      if (err) return cb(err);
+      assert(file);
+      assert.equal(file.stat, null);
+      cb();
+    });
+  });
+
   it('should expose `lstat`:', function(cb) {
     stats.lstat({path: 'README.md'}, function(err, file) {
       if (err) return cb(err);
       assert.equal(typeof file.lstat, 'object');
       assert(file.lstat.isFile());
+      cb();
+    });
+  });
+
+  it('should handle lstat ENOENT errors', function(cb) {
+    stats.lstat({path: 'fosudfsoofsofsoiso'}, function(err, file) {
+      if (err) return cb(err);
+      assert(file);
+      assert.equal(file.stat, null);
       cb();
     });
   });

@@ -28,7 +28,11 @@ module.exports = function fileStats() {
 function stat(file, cb) {
   utils.fs.stat(file.path, function(err, stat) {
     if (err) {
-      cb(err);
+      if (err.code === 'ENOENT') {
+        cb(null, file);
+      } else {
+        cb(err);
+      }
       return;
     }
     file.stat = stat;
@@ -56,7 +60,11 @@ function stat(file, cb) {
 function lstat(file, cb) {
   utils.fs.lstat(file.path, function(err, stat) {
     if (err) {
-      cb(err);
+      if (err.code === 'ENOENT') {
+        cb(null, file);
+      } else {
+        cb(err);
+      }
       return;
     }
     file.lstat = stat;
@@ -83,14 +91,23 @@ function lstat(file, cb) {
  */
 
 function statSync(file) {
+  utils.fileExists(file);
   var stat;
+
   Object.defineProperty(file, 'stat', {
     configurable: true,
     set: function(val) {
       stat = val;
     },
     get: function() {
-      return stat || (stat = utils.fs.statSync(this.path));
+      if (stat) {
+        return stat;
+      }
+      if (this.exists) {
+        stat = utils.fs.statSync(this.path);
+        return stat;
+      }
+      return null;
     }
   });
 }
@@ -113,14 +130,23 @@ function statSync(file) {
  */
 
 function lstatSync(file) {
+  utils.fileExists(file);
   var lstat;
+
   Object.defineProperty(file, 'lstat', {
     configurable: true,
     set: function(val) {
       lstat = val;
     },
     get: function() {
-      return lstat || (lstat = utils.fs.lstatSync(this.path));
+      if (lstat) {
+        return lstat;
+      }
+      if (this.exists) {
+        lstat = utils.fs.lstatSync(this.path);
+        return lstat;
+      }
+      return null;
     }
   });
 
@@ -130,7 +156,14 @@ function lstatSync(file) {
       lstat = val;
     },
     get: function() {
-      return lstat || (lstat = utils.fs.lstatSync(this.path));
+      if (lstat) {
+        return lstat;
+      }
+      if (this.exists) {
+        lstat = utils.fs.lstatSync(this.path);
+        return lstat;
+      }
+      return null;
     }
   });
 }
