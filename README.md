@@ -5,7 +5,6 @@ Set the `stat` property on a file object. Abstraction from vinyl-fs to support s
 ## Install
 
 Install with [npm](https://www.npmjs.com/):
-save
 
 ```sh
 $ npm install --save file-stat
@@ -61,7 +60,7 @@ stats.stat(new File({path: 'README.md'}), function(err, file) {
 });
 ```
 
-### [.lstat](index.js#L56)
+### [.lstat](index.js#L60)
 
 Asynchronously add a `lstat` property from `fs.lstat` to the given file object.
 
@@ -81,7 +80,7 @@ stats.lstat(new File({path: 'README.md'}), function(err, file) {
 });
 ```
 
-### [.statSync](index.js#L85)
+### [.statSync](index.js#L93)
 
 Synchronously add a `stat` property from `fs.stat` to the given file object.
 
@@ -101,7 +100,7 @@ console.log(file.stat.isFile());
 //=> true
 ```
 
-### [.lstatSync](index.js#L115)
+### [.lstatSync](index.js#L132)
 
 Synchronously add a `lstat` property from `fs.lstat` to the given file object.
 
