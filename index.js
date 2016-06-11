@@ -123,6 +123,16 @@ function lstatSync(file) {
       return lstat || (lstat = utils.fs.lstatSync(this.path));
     }
   });
+
+  Object.defineProperty(file, 'stat', {
+    configurable: true,
+    set: function(val) {
+      lstat = val;
+    },
+    get: function() {
+      return lstat || (lstat = utils.fs.lstatSync(this.path));
+    }
+  });
 }
 
 /**
