@@ -1,7 +1,7 @@
 {
   "name": "file-stat",
   "description": "Set the `stat` property on a file object. Abstraction from vinyl-fs to support stream or non-stream usage.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "homepage": "https://github.com/jonschlinkert/file-stat",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "jonschlinkert/file-stat",
