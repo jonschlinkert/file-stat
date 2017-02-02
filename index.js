@@ -26,13 +26,11 @@ module.exports = function fileStats() {
  */
 
 function stat(file, cb) {
+  utils.fileExists(file);
   utils.fs.stat(file.path, function(err, stat) {
     if (err) {
-      if (err.code === 'ENOENT') {
-        cb(null, file);
-      } else {
-        cb(err);
-      }
+      file.stat = null;
+      cb(err, file);
       return;
     }
     file.stat = stat;
@@ -58,13 +56,12 @@ function stat(file, cb) {
  */
 
 function lstat(file, cb) {
+  utils.fileExists(file);
   utils.fs.lstat(file.path, function(err, stat) {
     if (err) {
-      if (err.code === 'ENOENT') {
-        cb(null, file);
-      } else {
-        cb(err);
-      }
+      file.lstat = null;
+      file.stat = null;
+      cb(err, file);
       return;
     }
     file.lstat = stat;
@@ -92,20 +89,18 @@ function lstat(file, cb) {
 
 function statSync(file) {
   utils.fileExists(file);
-  var stat;
-
   Object.defineProperty(file, 'stat', {
     configurable: true,
     set: function(val) {
-      stat = val;
+      file._stat = val;
     },
     get: function() {
-      if (stat) {
-        return stat;
+      if (file._stat) {
+        return file._stat;
       }
       if (this.exists) {
-        stat = utils.fs.statSync(this.path);
-        return stat;
+        file._stat = utils.fs.statSync(this.path);
+        return file._stat;
       }
       return null;
     }
@@ -131,37 +126,18 @@ function statSync(file) {
 
 function lstatSync(file) {
   utils.fileExists(file);
-  var lstat;
-
   Object.defineProperty(file, 'lstat', {
     configurable: true,
     set: function(val) {
-      lstat = val;
+      file._lstat = val;
     },
     get: function() {
-      if (lstat) {
-        return lstat;
+      if (file._lstat) {
+        return file._lstat;
       }
       if (this.exists) {
-        lstat = utils.fs.lstatSync(this.path);
-        return lstat;
-      }
-      return null;
-    }
-  });
-
-  Object.defineProperty(file, 'stat', {
-    configurable: true,
-    set: function(val) {
-      lstat = val;
-    },
-    get: function() {
-      if (lstat) {
-        return lstat;
-      }
-      if (this.exists) {
-        lstat = utils.fs.lstatSync(this.path);
-        return lstat;
+        file._lstat = utils.fs.lstatSync(this.path);
+        return file._lstat;
       }
       return null;
     }

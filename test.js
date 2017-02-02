@@ -23,7 +23,6 @@ describe('add a `stat` property to the given object', function() {
       .on('end', function() {
         assert(files[0].stat);
         assert(files[0].stat.isFile());
-
         assert(files[0].lstat);
         assert(files[0].lstat.isFile());
         cb();
@@ -41,7 +40,8 @@ describe('add a `stat` property to the given object', function() {
 
   it('should handle stat ENOENT errors', function(cb) {
     stats.stat({path: 'fosudfsoofsofsoiso'}, function(err, file) {
-      if (err) return cb(err);
+      assert(err);
+      assert(err.message, `no such file or directory, stat 'fosudfsoofsofsoiso'`);
       assert(file);
       assert.equal(file.stat, null);
       cb();
@@ -59,7 +59,8 @@ describe('add a `stat` property to the given object', function() {
 
   it('should handle lstat ENOENT errors', function(cb) {
     stats.lstat({path: 'fosudfsoofsofsoiso'}, function(err, file) {
-      if (err) return cb(err);
+      assert(err);
+      assert(err.message, `no such file or directory, stat 'fosudfsoofsofsoiso'`);
       assert(file);
       assert.equal(file.stat, null);
       cb();

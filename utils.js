@@ -15,19 +15,16 @@ require = fn;
 
 utils.fileExists = function(file) {
   if ('exists' in file) return;
-  var exists;
-
   Object.defineProperty(file, 'exists', {
     configurable: true,
     set: function(val) {
-      exists = val;
+      file._exists = val;
     },
     get: function fn() {
-      if (typeof exists === 'boolean') {
-        return exists;
+      if (typeof file._exists !== 'boolean') {
+        file._exists = utils.exists(this.path);
       }
-      exists = utils.exists(this.path);
-      return exists;
+      return file._exists;
     }
   });
 };
